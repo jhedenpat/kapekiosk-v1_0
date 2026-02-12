@@ -25,44 +25,6 @@
 - **VAT-inclusive pricing** — Automatically computes 12% VAT for Philippine compliance
 - **Customizable menu data** — Easily update items, prices, categories, and add-ons
 
----
-
-## Tech Stack
-
-| Layer | Technology |
-|-------|------------|
-| Frontend | React + TypeScript |
-| Styling | Tailwind CSS + shadcn/ui |
-| Build | Vite |
-| Routing | React Router |
-
----
-
-## Getting Started
-
-```sh
-# Clone the repository
-git clone <YOUR_GIT_URL>
-
-# Navigate to the project
-cd <YOUR_PROJECT_NAME>
-
-# Install dependencies
-npm install
-
-# Start the development server
-npm run dev
-```
-
----
-
-## Deployment
-
-Open [Lovable](https://lovable.dev) and click **Share → Publish** to deploy instantly.
-
-Custom domains are supported — configure in **Project → Settings → Domains**.
-
----
 
 ## License
 
