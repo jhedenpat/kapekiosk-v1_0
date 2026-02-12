@@ -2,18 +2,21 @@ import { useState, useCallback } from "react";
 import WelcomeScreen from "@/components/kiosk/WelcomeScreen";
 import AuthGate from "@/components/kiosk/AuthGate";
 import ServiceSelection from "@/components/kiosk/ServiceSelection";
+import TimingSelection from "@/components/kiosk/TimingSelection";
 import MenuScreen from "@/components/kiosk/MenuScreen";
 import CustomizationModal from "@/components/kiosk/CustomizationModal";
 import CartScreen from "@/components/kiosk/CartScreen";
 import OrderConfirmation from "@/components/kiosk/OrderConfirmation";
 import type { CartItem, MenuItem } from "@/lib/kiosk-data";
 
-type KioskStep = "welcome" | "auth" | "service" | "menu" | "cart" | "confirmation";
+type KioskStep = "welcome" | "auth" | "service" | "timing" | "menu" | "cart" | "confirmation";
 
 const Index = () => {
   const [step, setStep] = useState<KioskStep>("welcome");
   const [guestName, setGuestName] = useState("");
   const [diningOption, setDiningOption] = useState<"dine_in" | "take_out">("dine_in");
+  const [timingMode, setTimingMode] = useState<"asap" | "scheduled">("asap");
+  const [scheduledTime, setScheduledTime] = useState<string | null>(null);
   const [cart, setCart] = useState<CartItem[]>([]);
   const [customizingItem, setCustomizingItem] = useState<MenuItem | null>(null);
   const [orderNumber, setOrderNumber] = useState("");
@@ -22,6 +25,8 @@ const Index = () => {
     setStep("welcome");
     setGuestName("");
     setDiningOption("dine_in");
+    setTimingMode("asap");
+    setScheduledTime(null);
     setCart([]);
     setCustomizingItem(null);
     setOrderNumber("");
@@ -73,9 +78,20 @@ const Index = () => {
           guestName={guestName}
           onSelect={(opt) => {
             setDiningOption(opt);
-            setStep("menu");
+            setStep("timing");
           }}
           onBack={() => setStep("auth")}
+        />
+      )}
+
+      {step === "timing" && (
+        <TimingSelection
+          onSelect={(mode, time) => {
+            setTimingMode(mode);
+            setScheduledTime(time ?? null);
+            setStep("menu");
+          }}
+          onBack={() => setStep("service")}
         />
       )}
 
@@ -84,7 +100,7 @@ const Index = () => {
           cartCount={cart.length}
           onAddItem={handleAddToCart}
           onViewCart={() => setStep("cart")}
-          onBack={() => setStep("service")}
+          onBack={() => setStep("timing")}
         />
       )}
 
@@ -103,6 +119,7 @@ const Index = () => {
         <OrderConfirmation
           orderNumber={orderNumber}
           guestName={guestName}
+          scheduledTime={scheduledTime}
           onNewOrder={resetOrder}
         />
       )}

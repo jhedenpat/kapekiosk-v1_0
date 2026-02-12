@@ -3,10 +3,11 @@ import { CheckCircle, RotateCcw } from "lucide-react";
 interface OrderConfirmationProps {
   orderNumber: string;
   guestName: string;
+  scheduledTime?: string | null;
   onNewOrder: () => void;
 }
 
-const OrderConfirmation = ({ orderNumber, guestName, onNewOrder }: OrderConfirmationProps) => {
+const OrderConfirmation = ({ orderNumber, guestName, scheduledTime, onNewOrder }: OrderConfirmationProps) => {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center kiosk-gradient px-8">
       <div className="w-full max-w-md space-y-8 text-center">
@@ -30,9 +31,18 @@ const OrderConfirmation = ({ orderNumber, guestName, onNewOrder }: OrderConfirma
           <p className="mt-2 text-5xl font-bold text-accent">
             #{orderNumber}
           </p>
-          <p className="mt-3 text-kiosk-latte/50">
-            Please wait for your name to be called
-          </p>
+          {scheduledTime ? (
+            <p className="mt-3 text-kiosk-latte/50">
+              Pickup at{" "}
+              <span className="font-semibold text-accent">
+                {new Date(scheduledTime).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+              </span>
+            </p>
+          ) : (
+            <p className="mt-3 text-kiosk-latte/50">
+              Please wait for your name to be called
+            </p>
+          )}
         </div>
 
         <button
