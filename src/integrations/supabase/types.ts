@@ -14,7 +14,95 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      order_items: {
+        Row: {
+          add_ons: string[] | null
+          add_ons_total: number
+          id: string
+          menu_item_id: string
+          menu_item_name: string
+          milk_type: string | null
+          order_id: string
+          price: number
+          quantity: number
+          sugar_level: string | null
+        }
+        Insert: {
+          add_ons?: string[] | null
+          add_ons_total?: number
+          id?: string
+          menu_item_id: string
+          menu_item_name: string
+          milk_type?: string | null
+          order_id: string
+          price: number
+          quantity?: number
+          sugar_level?: string | null
+        }
+        Update: {
+          add_ons?: string[] | null
+          add_ons_total?: number
+          id?: string
+          menu_item_id?: string
+          menu_item_name?: string
+          milk_type?: string | null
+          order_id?: string
+          price?: number
+          quantity?: number
+          sugar_level?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "order_items_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      orders: {
+        Row: {
+          created_at: string
+          dining_option: string
+          guest_name: string
+          id: string
+          order_number: string
+          payment_status: string
+          scheduled_time: string | null
+          status: string
+          timing_mode: string
+          total_amount: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          dining_option: string
+          guest_name: string
+          id?: string
+          order_number: string
+          payment_status?: string
+          scheduled_time?: string | null
+          status?: string
+          timing_mode: string
+          total_amount?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          dining_option?: string
+          guest_name?: string
+          id?: string
+          order_number?: string
+          payment_status?: string
+          scheduled_time?: string | null
+          status?: string
+          timing_mode?: string
+          total_amount?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
