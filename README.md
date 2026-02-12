@@ -1,73 +1,69 @@
-# Welcome to your Lovable project
+# ☕ KapeKiosk PH
 
-## Project info
+**A self-service coffee ordering kiosk built for Filipino café businesses.**
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+---
 
-## How can I edit this code?
+## How It Works
 
-There are several ways of editing your application.
+### For Customers
 
-**Use Lovable**
+1. **Welcome Screen** — Tap anywhere to begin your order
+2. **Guest or Member** — Continue as a guest or enter your member ID for rewards
+3. **Dine-in or Take-out** — Choose your dining preference
+4. **Timing** — Order for immediate preparation (ASAP) or schedule a pickup time
+5. **Browse the Menu** — Explore categories like Hot Coffee, Iced Coffee, Non-Coffee, and Pastries
+6. **Customize Your Drink** — Adjust sugar level, milk type, size, and add-ons (extra espresso shot, whipped cream, etc.)
+7. **Review Your Cart** — Check items, quantities, and VAT-inclusive totals
+8. **Order Confirmed** — Receive your order number and estimated preparation time
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+### For Business Owners
 
-Changes made via Lovable will be committed automatically to this repo.
+- **Touch-optimized kiosk UI** — Designed for tablets and touchscreen displays
+- **Filipino-first menu** — Spanish Latte, Kapé Barako, Ube Latte, Matcha Español, and more
+- **Flexible scheduling** — Supports both walk-in (ASAP) and advanced orders with 15-minute time slots
+- **VAT-inclusive pricing** — Automatically computes 12% VAT for Philippine compliance
+- **Customizable menu data** — Easily update items, prices, categories, and add-ons
 
-**Use your preferred IDE**
+---
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## Tech Stack
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+| Layer | Technology |
+|-------|------------|
+| Frontend | React + TypeScript |
+| Styling | Tailwind CSS + shadcn/ui |
+| Build | Vite |
+| Routing | React Router |
 
-Follow these steps:
+---
+
+## Getting Started
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
+# Clone the repository
 git clone <YOUR_GIT_URL>
 
-# Step 2: Navigate to the project directory.
+# Navigate to the project
 cd <YOUR_PROJECT_NAME>
 
-# Step 3: Install the necessary dependencies.
-npm i
+# Install dependencies
+npm install
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Start the development server
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+---
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Deployment
 
-**Use GitHub Codespaces**
+Open [Lovable](https://lovable.dev) and click **Share → Publish** to deploy instantly.
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+Custom domains are supported — configure in **Project → Settings → Domains**.
 
-## What technologies are used for this project?
+---
 
-This project is built with:
+## License
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+© 2026 KapeKiosk PH. All rights reserved.
