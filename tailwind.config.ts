@@ -57,6 +57,13 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        kiosk: {
+          warm: "hsl(var(--kiosk-warm))",
+          cream: "hsl(var(--kiosk-cream))",
+          gold: "hsl(var(--kiosk-gold))",
+          espresso: "hsl(var(--kiosk-espresso))",
+          latte: "hsl(var(--kiosk-latte))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
