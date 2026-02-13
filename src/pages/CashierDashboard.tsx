@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
 import { LogOut, Coffee, Clock, CheckCircle, XCircle, DollarSign } from "lucide-react";
 
 interface Order {
@@ -38,69 +37,12 @@ const STATUS_COLORS: Record<string, string> = {
 };
 
 const CashierDashboard = () => {
-  const [orders, setOrders] = useState<Order[]>([]);
+  const [orders] = useState<Order[]>([]);
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [filter, setFilter] = useState<string>("active");
   const navigate = useNavigate();
 
-  useEffect(() => {
-    // Check auth
-    supabase.auth.getSession().then(({ data }) => {
-      if (!data.session) navigate("/cashier/login");
-    });
-
-    fetchOrders();
-
-    // Realtime subscription
-    const channel = supabase
-      .channel("orders-realtime")
-      .on("postgres_changes", { event: "*", schema: "public", table: "orders" }, () => {
-        fetchOrders();
-      })
-      .subscribe();
-
-    return () => { supabase.removeChannel(channel); };
-  }, []);
-
-  const fetchOrders = async () => {
-    const { data } = await supabase
-      .from("orders")
-      .select("*")
-      .order("created_at", { ascending: false });
-    if (data) {
-      setOrders(data);
-    }
-  };
-
-  const fetchOrderItems = async (orderId: string) => {
-    const { data } = await supabase
-      .from("order_items")
-      .select("*")
-      .eq("order_id", orderId);
-    return data || [];
-  };
-
-  const selectOrder = async (order: Order) => {
-    const items = await fetchOrderItems(order.id);
-    setSelectedOrder({ ...order, items });
-  };
-
-  const updateStatus = async (orderId: string, newStatus: string) => {
-    await supabase.from("orders").update({ status: newStatus }).eq("id", orderId);
-    if (selectedOrder?.id === orderId) {
-      setSelectedOrder((prev) => prev ? { ...prev, status: newStatus } : null);
-    }
-  };
-
-  const updatePayment = async (orderId: string) => {
-    await supabase.from("orders").update({ payment_status: "paid" }).eq("id", orderId);
-    if (selectedOrder?.id === orderId) {
-      setSelectedOrder((prev) => prev ? { ...prev, payment_status: "paid" } : null);
-    }
-  };
-
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
+  const handleLogout = () => {
     navigate("/cashier/login");
   };
 
@@ -152,7 +94,7 @@ const CashierDashboard = () => {
           {filtered.map((order) => (
             <button
               key={order.id}
-              onClick={() => selectOrder(order)}
+              onClick={() => setSelectedOrder(order)}
               className={`w-full rounded-2xl border-2 p-4 text-left transition-all ${
                 selectedOrder?.id === order.id
                   ? "border-accent/40 bg-accent/10"
@@ -239,7 +181,6 @@ const CashierDashboard = () => {
             <div className="flex flex-wrap gap-3">
               {selectedOrder.payment_status === "unpaid" && selectedOrder.status !== "cancelled" && (
                 <button
-                  onClick={() => updatePayment(selectedOrder.id)}
                   className="flex items-center gap-2 rounded-2xl kiosk-gold-gradient px-6 py-3 font-bold text-accent-foreground transition-all hover:opacity-90"
                 >
                   <DollarSign className="h-5 w-5" />
@@ -249,7 +190,6 @@ const CashierDashboard = () => {
 
               {nextStatus(selectedOrder.status) && (
                 <button
-                  onClick={() => updateStatus(selectedOrder.id, nextStatus(selectedOrder.status)!)}
                   className="flex items-center gap-2 rounded-2xl bg-accent/20 px-6 py-3 font-bold text-accent transition-all hover:bg-accent/30"
                 >
                   <CheckCircle className="h-5 w-5" />
@@ -259,7 +199,6 @@ const CashierDashboard = () => {
 
               {selectedOrder.status === "pending" && (
                 <button
-                  onClick={() => updateStatus(selectedOrder.id, "cancelled")}
                   className="flex items-center gap-2 rounded-2xl bg-destructive/20 px-6 py-3 font-bold text-destructive-foreground transition-all hover:bg-destructive/30"
                 >
                   <XCircle className="h-5 w-5" />

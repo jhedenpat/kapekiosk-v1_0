@@ -1,5 +1,4 @@
 import { useState, useCallback } from "react";
-import { supabase } from "@/integrations/supabase/client";
 import WelcomeScreen from "@/components/kiosk/WelcomeScreen";
 import AuthGate from "@/components/kiosk/AuthGate";
 import ServiceSelection from "@/components/kiosk/ServiceSelection";
@@ -67,60 +66,21 @@ const Index = () => {
     }, 0);
   }, [cart]);
 
-  const saveOrderToDb = useCallback(async () => {
-    const orderNum = String(Math.floor(100 + Math.random() * 900));
-    const total = getCartTotal();
-
-    const { data: order } = await supabase
-      .from("orders")
-      .insert({
-        order_number: orderNum,
-        guest_name: guestName,
-        dining_option: diningOption,
-        timing_mode: timingMode,
-        scheduled_time: scheduledTime,
-        total_amount: total,
-        payment_status: timingMode === "scheduled" ? "paid" : "unpaid",
-      })
-      .select()
-      .single();
-
-    if (order) {
-      const items = cart.map((ci) => ({
-        order_id: order.id,
-        menu_item_id: ci.menuItem.id,
-        menu_item_name: ci.menuItem.name,
-        price: ci.menuItem.price,
-        quantity: ci.quantity,
-        sugar_level: ci.customizations.sugar,
-        milk_type: ci.customizations.milk,
-        add_ons: ci.customizations.addOns,
-        add_ons_total: ci.customizations.addOns.reduce((s, name) => {
-          const addon = ADDON_OPTIONS.find((a) => a.name === name);
-          return s + (addon?.price ?? 0);
-        }, 0),
-      }));
-      await supabase.from("order_items").insert(items);
-    }
-
-    return orderNum;
-  }, [cart, guestName, diningOption, timingMode, scheduledTime, getCartTotal]);
-
   const handleCheckout = useCallback(async () => {
+    const orderNum = String(Math.floor(100 + Math.random() * 900));
     if (timingMode === "scheduled") {
       setStep("payment");
     } else {
-      const num = await saveOrderToDb();
-      setOrderNumber(num);
+      setOrderNumber(orderNum);
       setStep("confirmation");
     }
-  }, [timingMode, saveOrderToDb]);
+  }, [timingMode]);
 
   const handlePaymentSuccess = useCallback(async () => {
-    const num = await saveOrderToDb();
-    setOrderNumber(num);
+    const orderNum = String(Math.floor(100 + Math.random() * 900));
+    setOrderNumber(orderNum);
     setStep("confirmation");
-  }, [saveOrderToDb]);
+  }, []);
 
   return (
     <div className="min-h-screen">
